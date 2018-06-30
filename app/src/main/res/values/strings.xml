@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Kotlin Academy Carlos</string>
+
+    <string name="write_your_name">Write something</string>
+    <string name="hello_msg">Hello %1$s</string>
+
+
+    <string name="mocked_card_body">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Etiam eget ligula eu lectus lobortis condimentum.</string>
+</resources>
