@@ -18,9 +18,8 @@ class MainActivity : BaseActivity() {
     }
 
 
-
     fun showSnackbar(msg: String) {
-        Snackbar.make(findViewById<View>(android.R.id.content), msg, Snackbar.LENGTH_LONG).show()
+        Snackbar.make(findViewById<View>(R.id.main_activity_coordinator_layout), msg, Snackbar.LENGTH_LONG).show()
     }
 
 }
