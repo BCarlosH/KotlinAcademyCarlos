@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity
 
 abstract class BaseActivity : AppCompatActivity() {
 
-    inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> Unit) {
+    private inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> Unit) {
         val fragmentTransaction = beginTransaction()
         fragmentTransaction.func()
         fragmentTransaction.commit()

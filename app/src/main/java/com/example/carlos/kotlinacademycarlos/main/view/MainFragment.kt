@@ -12,6 +12,7 @@ import com.example.carlos.kotlinacademycarlos.main.model.MediaItem
 import com.example.carlos.kotlinacademycarlos.main.presenter.MainFragmentPresenter
 import kotlinx.android.synthetic.main.fragment_main.*
 
+
 class MainFragment : Fragment(), MainFragmentContract.View {
 
     private lateinit var presenter: MainFragmentContract.Presenter
@@ -21,12 +22,14 @@ class MainFragment : Fragment(), MainFragmentContract.View {
         return inflater.inflate(R.layout.fragment_main, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         initPresenter()
         loadData()
         initAdapter()
+
+        (activity as MainActivity).showSnackBar("Item 1 created")
     }
 
     override fun initPresenter() {
@@ -40,9 +43,8 @@ class MainFragment : Fragment(), MainFragmentContract.View {
 
     private fun initAdapter() {
         recyclerView.layoutManager = GridLayoutManager(context, 2)
-        val adapter = MediaAdapter(mediaItemList) { mediaItem -> (activity as MainActivity).showSnackbar(mediaItem.tittle) }
+        val adapter = MediaAdapter(mediaItemList) { mediaItem -> (activity as MainActivity).showSnackBar(mediaItem.tittle) }
         recyclerView.adapter = adapter
     }
-
 
 }
