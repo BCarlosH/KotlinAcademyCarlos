@@ -9,5 +9,7 @@
     <string name="bottom_bar_item_3">Item 3</string>
 
     <string name="mocked_card_body">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Etiam eget ligula eu lectus lobortis condimentum. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         Etiam eget ligula eu lectus lobortis condimentum.</string>
+
 </resources>

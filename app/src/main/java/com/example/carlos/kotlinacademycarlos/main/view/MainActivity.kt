@@ -12,42 +12,104 @@ import com.example.carlos.kotlinacademycarlos.functionalityitem3.view.Item3Fragm
 import com.example.carlos.kotlinacademycarlos.functionalityitem2.view.Item2Fragment
 
 
+private const val ARG_ITEM_SELECTED = "itemSelected"
+private const val ARG_ITEM_IMAGE = "itemImage"
+
+private const val MAIN_FRAGMENT_TAG = "main_fragment_tag"
+private const val ITEM2_FRAGMENT_TAG = "item2_fragment_tag"
+private const val ITEM3_FRAGMENT_TAG = "item3_fragment_tag"
+
+
 class MainActivity : BaseActivity() {
 
     private lateinit var selectedFragment: Fragment
+    private var layoutContainerId: Int = -1
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        layoutContainerId = R.id.main_container
 
         selectedFragment = MainFragment()
-        addFragment(selectedFragment, R.id.main_container, selectedFragment.tag)
+        addFragment(selectedFragment, R.id.main_container, MAIN_FRAGMENT_TAG, false)
         setBottomNavigationBarListener()
     }
 
     private fun setBottomNavigationBarListener() {
         bottomNavigationBar.setOnNavigationItemSelectedListener { item: MenuItem ->
-
-            when (item.itemId) {
-                R.id.action_item1 -> if (getCurrentFragment() !is MainFragment) selectedFragment = MainFragment()
-                R.id.action_item2 -> if (getCurrentFragment() !is Item2Fragment) selectedFragment = Item2Fragment()
-                R.id.action_item3 -> if (getCurrentFragment() !is Item3Fragment) selectedFragment = Item3Fragment()
-            }
-
-            replaceFragment(selectedFragment, R.id.main_container, selectedFragment.tag)
+            manageBottomNavigationBarNavigation(item)
             true
         }
     }
 
+    private fun manageBottomNavigationBarNavigation(itemSelected: MenuItem) {
+        when (itemSelected.itemId) {
+
+            R.id.action_item1 -> if (getCurrentFragment(layoutContainerId) !is MainFragment) {
+                if (supportFragmentManager.findFragmentByTag(MAIN_FRAGMENT_TAG) == null) {
+
+                    detachCurrentFragment(layoutContainerId)
+                    selectedFragment = MainFragment()
+                    addFragment(selectedFragment, layoutContainerId, MAIN_FRAGMENT_TAG, false)
+
+                } else {
+                    switchFragments(MAIN_FRAGMENT_TAG, layoutContainerId)
+                }
+            }
+
+            R.id.action_item2 -> if (getCurrentFragment(layoutContainerId) !is Item2Fragment) {
+                if (supportFragmentManager.findFragmentByTag(ITEM2_FRAGMENT_TAG) == null) {
+
+                    detachCurrentFragment(layoutContainerId)
+                    selectedFragment = Item2Fragment()
+                    addFragment(selectedFragment, layoutContainerId, ITEM2_FRAGMENT_TAG, false)
+
+                } else {
+                    switchFragments(ITEM2_FRAGMENT_TAG, layoutContainerId)
+                }
+            }
+
+            R.id.action_item3 -> if (getCurrentFragment(layoutContainerId) !is Item3Fragment) {
+                if (supportFragmentManager.findFragmentByTag(ITEM3_FRAGMENT_TAG) == null) {
+
+                    detachCurrentFragment(layoutContainerId)
+                    selectedFragment = Item3Fragment()
+                    addFragment(selectedFragment, layoutContainerId, ITEM3_FRAGMENT_TAG, false)
+
+                } else {
+                    switchFragments(ITEM3_FRAGMENT_TAG, layoutContainerId)
+                }
+            }
+
+        }
+    }
+
     override fun onBackPressed() {
-        if (getCurrentFragment() is MainFragment) {
+        if (getCurrentFragment(layoutContainerId) is MainFragment) {
             super.onBackPressed()
+        } else if (getCurrentFragment(layoutContainerId) is DetailFragment) {
+            setBottomNavigationBarVisibility(true)
+            bottomNavigationBar.selectedItemId = R.id.action_item1
         } else {
             bottomNavigationBar.selectedItemId = R.id.action_item1
         }
     }
 
-    private fun getCurrentFragment(): Fragment = supportFragmentManager.findFragmentById(R.id.main_container)
+    fun showDetailFragment(itemSelected: String, thumbUrl: String) {
+        val detailFragment = DetailFragment()
+        val arguments = Bundle()
+        arguments.putString(ARG_ITEM_SELECTED, itemSelected)
+        arguments.putString(ARG_ITEM_IMAGE, thumbUrl)
+        detailFragment.arguments = arguments
+        replaceFragment(detailFragment, layoutContainerId, null, false)
+
+        setBottomNavigationBarVisibility(false)
+    }
+
+    private fun setBottomNavigationBarVisibility(visible: Boolean) {
+        if (visible) bottomNavigationBar.visibility = View.VISIBLE else bottomNavigationBar.visibility = View.GONE
+    }
 
     fun showSnackBar(msg: String) {
         Snackbar.make(findViewById<View>(R.id.main_activity_coordinator_layout), msg, Snackbar.LENGTH_LONG).show()
