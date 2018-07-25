@@ -52,9 +52,21 @@ class MainFragment : Fragment(), MainFragmentContract.View {
 
     private fun initAdapter() {
         recyclerView.layoutManager = GridLayoutManager(context, 2)
-        val adapter = MediaAdapter(mediaItemList) { mediaItem -> (activity as MainActivity)
-                .showDetailActivity(mediaItem.tittle, mediaItem.thumbUrl) }
+        val adapter = MediaAdapter(mediaItemList) { mediaItem ->
+            onMediaItemClick(mediaItem)
+        }
         recyclerView.adapter = adapter
+    }
+
+    /**
+     * Just an error simulation here...
+     */
+    private fun onMediaItemClick(mediaItem: MediaItem) {
+        if (resources.getString(R.string.media_item_error_simulation) == mediaItem.tittle) {
+            (activity as MainActivity).showSnackBar(resources.getString(R.string.media_item_error_simulation_msg))
+        } else {
+            (activity as MainActivity).showDetailActivity(mediaItem.tittle, mediaItem.thumbUrl)
+        }
     }
 
     override fun onResume() {
