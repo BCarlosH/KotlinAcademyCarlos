@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Kotlin Academy Carlos</string>
 
+    <string name="detail_activity_tittle">Detail</string>
+
     <string name="write_your_name">Write something</string>
     <string name="hello_msg">Hello %1$s</string>
 

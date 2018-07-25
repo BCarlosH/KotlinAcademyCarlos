@@ -3,6 +3,7 @@ package com.example.carlos.kotlinacademycarlos.main.view
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import com.example.carlos.kotlinacademycarlos.R
@@ -22,12 +23,17 @@ private const val ITEM3_FRAGMENT_TAG = "item3_fragment_tag"
 
 class MainActivity : BaseActivity() {
 
+    private val TAG = MainActivity::class.java.name
+
+
     private lateinit var selectedFragment: Fragment
     private var layoutContainerId: Int = -1
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d(TAG, "onCreate")
+
         setContentView(R.layout.activity_main)
         layoutContainerId = R.id.main_container
 
@@ -86,6 +92,7 @@ class MainActivity : BaseActivity() {
     }
 
     override fun onBackPressed() {
+        Log.d(TAG, "onBackPressed")
         if (getCurrentFragment(layoutContainerId) is MainFragment) {
             super.onBackPressed()
         } else if (getCurrentFragment(layoutContainerId) is DetailFragment) {
@@ -94,6 +101,10 @@ class MainActivity : BaseActivity() {
         } else {
             bottomNavigationBar.selectedItemId = R.id.action_item1
         }
+    }
+
+    fun showDetailActivity(itemSelected: String, thumbUrl: String) {
+        startActivity(detailIntent(itemSelected, thumbUrl))
     }
 
     fun showDetailFragment(itemSelected: String, thumbUrl: String) {
@@ -113,6 +124,11 @@ class MainActivity : BaseActivity() {
 
     fun showSnackBar(msg: String) {
         Snackbar.make(findViewById<View>(R.id.main_activity_coordinator_layout), msg, Snackbar.LENGTH_LONG).show()
+    }
+
+    override fun onDestroy() {
+        Log.d(TAG, "onDestroy")
+        super.onDestroy()
     }
 
 }

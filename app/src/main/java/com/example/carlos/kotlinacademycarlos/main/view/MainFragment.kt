@@ -22,8 +22,8 @@ class MainFragment : Fragment(), MainFragmentContract.View {
     private lateinit var mediaItemList: List<MediaItem>
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d(TAG, "onCreate")
         super.onCreate(savedInstanceState)
+        Log.d(TAG, "onCreate")
 
         initPresenter()
     }
@@ -34,8 +34,8 @@ class MainFragment : Fragment(), MainFragmentContract.View {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.d(TAG, "onViewCreated")
         super.onViewCreated(view, savedInstanceState)
+        Log.d(TAG, "onViewCreated")
 
         loadData()
         initAdapter()
@@ -53,17 +53,17 @@ class MainFragment : Fragment(), MainFragmentContract.View {
     private fun initAdapter() {
         recyclerView.layoutManager = GridLayoutManager(context, 2)
         val adapter = MediaAdapter(mediaItemList) { mediaItem -> (activity as MainActivity)
-                .showDetailFragment(mediaItem.tittle, mediaItem.thumbUrl) }
+                .showDetailActivity(mediaItem.tittle, mediaItem.thumbUrl) }
         recyclerView.adapter = adapter
     }
 
     override fun onResume() {
-        Log.d(TAG, "onResume")
         super.onResume()
+        Log.d(TAG, "onResume")
     }
 
     override fun onDestroy() {
-        Log.d(TAG, "onDestroy")
         super.onDestroy()
+        Log.d(TAG, "onDestroy")
     }
 }
